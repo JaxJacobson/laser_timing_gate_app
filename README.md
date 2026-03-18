@@ -1,6 +1,5 @@
 # laser_timing_gate_app
 
-------CHANGES-------
 A new Flutter project.
 
 ## Getting Started
