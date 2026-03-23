@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 155, 105, 105)),
+        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 58, 31, 176)),
       ),
       home: const MyHomePage(title: 'Laser Timing Gate'),
     );
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       // _counter without calling setState(), then the build method would not be
       // called again, and so nothing would appear to happen.
       _counter++;
-    });
+    });    
   }
 
   @override
@@ -102,9 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You have pushed the button this many times:'),
+            const Text('Evan has kissed Trey this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
