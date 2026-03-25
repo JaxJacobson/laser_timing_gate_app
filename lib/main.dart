@@ -28,9 +28,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 58, 31, 176)),
+        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 255, 213, 0)),
       ),
-      home: const MyHomePage(title: 'Laser Timing Gate'),
+      home: const MyHomePage(title: 'Laser Timing Gate')
     );
   }
 }
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-      ),
+        ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -112,9 +112,23 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal:8, vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(icon: const Icon(Icons.home), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.timeline), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.image), onPressed: () {}),
+            IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
+          ],
+        ),
+      ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'Evan will kiss Trey for a very long time',
         child: const Icon(Icons.add),
       ),
     );
