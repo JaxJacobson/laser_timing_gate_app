@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 255, 213, 0)),
+        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 255, 106, 0)),
       ),
       home: const MyHomePage(title: 'Laser Timing Gate')
     );
@@ -102,16 +102,30 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
+          
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Evan has kissed Trey this many times:'),
             Text(
               '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              style: Theme.of(context).textTheme.headlineLarge,
             ),
           ],
         ),
       ),
+
+                
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Evan will kiss Trey for a very long time',
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.female),
+          ],
+        ),
+      ),
+    
 
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal:8, vertical: 8),
@@ -125,12 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Evan will kiss Trey for a very long time',
-        child: const Icon(Icons.add),
-      ),
+      
     );
   }
 }
