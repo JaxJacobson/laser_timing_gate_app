@@ -76,6 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
@@ -110,21 +111,25 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineLarge,
             ),
+
           ],
         ),
       ),
 
-                
-      floatingActionButton: FloatingActionButton(
+            // Needs to be a direct part of scaffold, cannot be a child of body.
+            // Its default position is bottom right of screen.
+            // In order for it to be centered with text, it has to be an ElevatedButton in the body.
+        floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Evan will kiss Trey for a very long time',
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.female),
-          ],
+            Icon(Icons.speed),
+            ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     
 
       bottomNavigationBar: Container(
