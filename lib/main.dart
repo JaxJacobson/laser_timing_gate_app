@@ -13,22 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Laser Timing Gate',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: const Color.fromARGB(255, 255, 106, 0)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 106, 0)),
       ),
       home: const MyHomePage(title: 'Laser Timing Gate')
     );
@@ -54,97 +39,74 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });    
+  void button1() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Starting a session...'),
+          duration: Duration(seconds: 3),
+        ),
+      );
   }
+  void button2() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Showing session history...'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+  }
+void button3() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Showing athlete information...'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+  }
+  void button4() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Showing start list...'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+
     return Scaffold(
 
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
+
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
+ 
         title: Text(widget.title),
         ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
+
           
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Evan has kissed Trey this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-
-          ],
-        ),
-      ),
-
-            // Needs to be a direct part of scaffold, cannot be a child of body.
-            // Its default position is bottom right of screen.
-            // In order for it to be centered with text, it has to be an ElevatedButton in the body.
-        floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Evan will kiss Trey for a very long time',
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.speed),
-            ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    
-
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal:8, vertical: 8),
-        child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(icon: const Icon(Icons.home), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.timeline), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.image), onPressed: () {}),
-            IconButton(icon: const Icon(Icons.settings), onPressed: () {}),
+            // When pressed, the button will call the "snackbar" which will display a message.
+            // The SnackBar is at the top of the MyHomePageState class.
+            ElevatedButton(onPressed: button1, child: const Text('Start Session')),
+            ElevatedButton(onPressed: button2, child: const Text('Session History')),
+            ElevatedButton(onPressed: button3, child: const Text('Athletes')),
+            ElevatedButton(onPressed: button4, child: const Text('Start List'))
+
+
+            // Button needs to be a direct part of scaffold, cannot be a child of body if FAB.
+            // Its default position is bottom right of screen.
+            // In order for it to be centered with text, it has to be an ElevatedButton in the body
           ],
         ),
       ),
-      
     );
   }
 }
