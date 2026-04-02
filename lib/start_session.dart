@@ -18,7 +18,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
       ),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title: const Text(title),
         ),
       body: Center(

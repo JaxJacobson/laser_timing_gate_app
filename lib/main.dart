@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Laser Timing Gate',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 106, 0)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
       ),
       home: const MyHomePage(title: 'Laser Timing Gate')
     );
@@ -111,7 +111,7 @@ void button3() {
 
       appBar: AppBar(
 
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
  
         title: Text(widget.title),
         ),
