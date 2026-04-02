@@ -1,9 +1,6 @@
-import 'package:flutter/material.dart';
-import 'start_list.dart';
+/*
 
-void main() {
-  runApp(const MyApp());
-}
+import 'package:flutter/material.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -96,7 +93,7 @@ void button3() {
       // After message is shown, the Start List Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const StartListPage(title: 'Start List Page')),
+      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Start List Page')),
     );
   }
 
@@ -137,3 +134,4 @@ void button3() {
     );
   }
 }
+*/
