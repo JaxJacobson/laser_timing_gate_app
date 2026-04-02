@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
-class StartSessionPage extends StatefulWidget {
-  const StartSessionPage({super.key});
+class SessionHistoryPage extends StatefulWidget {
+  const SessionHistoryPage({super.key});
 
   @override
-  State<StartSessionPage> createState() => _StartSessionPageState();
+  State<SessionHistoryPage> createState() => _SessionHistoryPageState();
 }
 
-class _StartSessionPageState extends State<StartSessionPage> {
-  static const String title = 'Current Session';
+class _SessionHistoryPageState extends State<SessionHistoryPage> {
+  static const String title = 'Session History';
 
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 17, 0, 255)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 0, 238)),
       ),
       child: Scaffold(
         appBar: AppBar(

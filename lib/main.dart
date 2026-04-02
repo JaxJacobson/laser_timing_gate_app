@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'start_session.dart';
+import 'session_history.dart';
+import 'athlete.dart';
 import 'start_list.dart';
 
 void main() {
@@ -47,13 +50,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
           content: Text('Starting a session...'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
       // After message is shown, the Session Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Session Page')),
+      MaterialPageRoute(builder: (context) => const StartSessionPage()),
     );
     
   }
@@ -62,13 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
           content: Text('Showing session history...'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
       // After message is shown, the Session History Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Session History Page')),
+      MaterialPageRoute(builder: (context) => const SessionHistoryPage()),
     );
   }
 void button3() {
@@ -76,13 +79,13 @@ void button3() {
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
           content: Text('Showing athlete information...'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
       // After message is shown, the Athlete Information Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const MyHomePage(title: 'Athlete Information Page')),
+      MaterialPageRoute(builder: (context) => const AthletePage()),
     );
   }
   void button4() {
@@ -90,13 +93,13 @@ void button3() {
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
           content: Text('Showing start list...'),
-          duration: Duration(seconds: 2),
+          duration: Duration(seconds: 1),
         ),
       );
       // After message is shown, the Start List Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const StartListPage(title: 'Start List Page')),
+      MaterialPageRoute(builder: (context) => const StartListPage()),
     );
   }
 
