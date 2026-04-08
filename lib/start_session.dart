@@ -1,11 +1,16 @@
-import 'dart:async';
+// start_session.dart
+// Mayson Ostermeyer 04/07/2026
+//
+// TODO: write file desciption
 
+// IMPORTS
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'BT_HC05.dart';
 
 class StartSessionPage extends StatefulWidget {
+  // Main page for starting a session and connecting to the HC-05 Bluetooth module.
   const StartSessionPage({super.key});
-
   @override
   State<StartSessionPage> createState() => _StartSessionPageState();
 }
@@ -13,11 +18,14 @@ class StartSessionPage extends StatefulWidget {
 class _StartSessionPageState extends State<StartSessionPage> {
   static const String title = 'Current Session';
 
+ // Initialize the HC-05 service and variables for storing the latest data and timer.
   final HC05Service hc05Service = HC05Service();
   String latestData = 'Waiting...';
+  // Timer for periodically refreshing the displayed data from the HC-05 module.
   Timer? refreshTimer;
 
   Future<void> button1() async {
+    // Handles the button press to connect to the HC-05 module and start receiving data.
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Connecting...'),
@@ -25,25 +33,29 @@ class _StartSessionPageState extends State<StartSessionPage> {
       ),
     );
 
+    // Attempt to connect to the HC-05 module and await the result.
     final result = await hc05Service.connect();
 
     // Prevents crashing if user exits mid-connection
     if (!mounted) return;
 
+    // Set up a timer to periodically refresh the displayed data from the HC-05 module.
     refreshTimer?.cancel();
     refreshTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      // Update the latestData variable with the latest value from the HC-05 service and refresh the UI.
       if (!mounted) return;
       setState(() {
         latestData = hc05Service.latestValue;
       });
     });
-
+    // Show a SnackBar with the result of the connection attempt (success or failure).
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(result)),
     );
   }
 
   @override
+  // Builds the UI for the StartSessionPage, including a button to connect to the HC-05 module and a container to display the latest data.
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -53,12 +65,14 @@ class _StartSessionPageState extends State<StartSessionPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Button to initiate connection to the HC-05 Bluetooth module.
             ElevatedButton(
               onPressed: button1,
               child: const Text('Connect to HC-05'),
             ),
             const SizedBox(height: 20),
             Container(
+              // Container to display the latest data received from the HC-05 module, styled with a border and background color.
               width: 220,
               height: 100,
               alignment: Alignment.center,
@@ -82,7 +96,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
     );
   }
 
-// runs when screen closes
+// Runs when screen closes
 // Disposes of the HC-05 connection and stops the timer to prevent memory leaks.
   @override
   void dispose() {
