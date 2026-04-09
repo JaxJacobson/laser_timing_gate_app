@@ -7,6 +7,7 @@ class HC05Service {
   SerialPortReader? _reader;
 
   String latestValue = 'Waiting...';
+  String _buffer = '';
 
   Future<String> connect() async {
     const portName = 'COM5';
@@ -26,12 +27,22 @@ class HC05Service {
 
     _reader = SerialPortReader(_port!);
     _reader!.stream.listen((data) {
-      final value = ascii.decode(data, allowInvalid: true).trim();
-      if (value.isNotEmpty) {
-        latestValue = value
-          .replaceFirst('UM:', '')
-          .replaceFirst('N:', '')
-          .trim();
+      _buffer += ascii.decode(data, allowInvalid: true);
+
+      if (_buffer.contains('\n')) {
+        final parts = _buffer.split('\n');
+
+        for (int i = 0; i < parts.length - 1; i++) {
+          final value = parts[i]
+              .replaceAll('\r', '')
+              .trim();
+
+          if (value.isNotEmpty) {
+            latestValue = value;
+          }
+        }
+
+        _buffer = parts.last;
       }
     });
 
