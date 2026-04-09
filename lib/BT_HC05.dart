@@ -14,7 +14,7 @@ class HC05Service {
 
   SerialPort? _port;
   SerialPortReader? _reader;
-  String latestValue = 'Waiting...';
+  String time = 'Waiting...';
 
   Future<String> connect() async {
     // Attempt to connect to the HC-05 Bluetooth module on the specified COM port.
@@ -38,10 +38,10 @@ class HC05Service {
     // Set up a reader to listen for incoming data from the HC-05 module.
     _reader = SerialPortReader(_port!);
     _reader!.stream.listen((data) {
-      // Decode the incoming data as ASCII and update the latestValue variable.
+      // Decode the incoming data as ASCII and update the time variable.
       final value = ascii.decode(data, allowInvalid: true).trim();
       if (value.isNotEmpty) {
-        latestValue = value
+        time = value
           // Remove any unwanted prefixes from the received data and trim whitespace.
           .replaceFirst('UM:', '')
           .replaceFirst('N:', '')

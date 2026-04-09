@@ -20,7 +20,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
 
  // Initialize the HC-05 service and variables for storing the latest data and timer.
   final HC05Service hc05Service = HC05Service();
-  String latestData = 'Waiting...';
+  String time = 'Waiting...';
   // Timer for periodically refreshing the displayed data from the HC-05 module.
   Timer? refreshTimer;
 
@@ -42,10 +42,10 @@ class _StartSessionPageState extends State<StartSessionPage> {
     // Set up a timer to periodically refresh the displayed data from the HC-05 module.
     refreshTimer?.cancel();
     refreshTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      // Update the latestData variable with the latest value from the HC-05 service and refresh the UI.
+      // Update the time variable with the latest value from the HC-05 service and refresh the UI.
       if (!mounted) return;
       setState(() {
-        latestData = hc05Service.latestValue;
+        time = hc05Service.latestValue;
       });
     });
     // Show a SnackBar with the result of the connection attempt (success or failure).
@@ -82,7 +82,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                latestData,
+                time,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
