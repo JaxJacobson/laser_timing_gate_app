@@ -1,8 +1,18 @@
+// start_session.dart
+// Mayson Ostermeyer 04/11/2026
+//
+// This file defines the StartSessionPage, which allows users to connect to the HC-05 Bluetooth module,
+// select a start list, and enter a session name before starting a new session. It also handles loading
+// available start lists from the 'start_lists' directory.
+
+
+// IMPORTS
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'BT_HC05.dart';
 import 'running_session.dart';
+
 
 class StartSessionPage extends StatefulWidget {
   const StartSessionPage({super.key});
@@ -56,7 +66,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
     refreshTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (!mounted) return;
       setState(() {
-        latestData = hc05Service.latestValue;
+        latestData = hc05Service.latest_time;
       });
     });
 
@@ -89,22 +99,30 @@ void button2() async {
       '${now.year}';
 
   final fullFileName = '${baseName}_$dateSuffix';
-  final file = File('sessions/$fullFileName.txt');
+  final sessionFile = File('sessions/$fullFileName.txt');
 
-  if (!file.existsSync()) {
-    file.createSync(recursive: true);
+  if (!sessionFile.existsSync()) {
+    sessionFile.createSync(recursive: true);
   }
 
-  file.writeAsStringSync('Session: $fullFileName\n');
+  sessionFile.writeAsStringSync('Session: $fullFileName\n');
 
   if (!mounted) return;
+
+
+  final file = File('start_lists/$selectedListName');
+  final startList = file
+      .readAsLinesSync()
+      .where((line) => line.trim().isNotEmpty)
+      .toList();
 
   Navigator.push(
     context,
     MaterialPageRoute(
       builder: (context) => RunningSessionPage(
-        sessionName: fullFileName,
-        startListName: selectedListName!,
+        sessionPath: sessionFile.path,
+        startList: startList,
+        hc05Service: hc05Service,
       ),
     ),
   );
