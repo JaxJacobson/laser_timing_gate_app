@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Laser Timing Gate',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(88, 255, 3, 3)),
       ),
       home: const MyHomePage(title: 'Laser Timing Gate')
     );
@@ -45,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   // button1 is for the starting a session page
-  void button1() {
+  void startSessionButton() {
     ScaffoldMessenger.of(context).showSnackBar(
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     
   }
-  void button2() {
+  void sessionHistoryButton() {
     ScaffoldMessenger.of(context).showSnackBar(
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> {
       MaterialPageRoute(builder: (context) => const SessionHistoryPage()),
     );
   }
-void button3() {
+void athleteButton() {
     ScaffoldMessenger.of(context).showSnackBar(
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
@@ -88,7 +88,7 @@ void button3() {
       MaterialPageRoute(builder: (context) => const AthletePage()),
     );
   }
-  void button4() {
+  void startListButton() {
     ScaffoldMessenger.of(context).showSnackBar(
       // The SnackBar only displays a message for 3 seconds.
         const SnackBar(
@@ -125,10 +125,10 @@ void button3() {
           children: [
             // When pressed, the button will call the "snackbar" which will display a message.
             // The SnackBar is at the top of the MyHomePageState class.
-            ElevatedButton(onPressed: button1, child: const Text('Start Session')),
-            ElevatedButton(onPressed: button2, child: const Text('Session History')),
-            ElevatedButton(onPressed: button3, child: const Text('Athletes')),
-            ElevatedButton(onPressed: button4, child: const Text('Start List'))
+            ElevatedButton(onPressed: startSessionButton, child: const Text('Start Session')),
+            ElevatedButton(onPressed: sessionHistoryButton, child: const Text('Session History')),
+            ElevatedButton(onPressed: athleteButton, child: const Text('Athletes')),
+            ElevatedButton(onPressed: startListButton, child: const Text('Start List'))
 
 
             // Button needs to be a direct part of scaffold, cannot be a child of body if FAB.

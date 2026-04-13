@@ -26,7 +26,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
 
   final HC05Service hc05Service = HC05Service();
   String latestData = 'Waiting...';
-  Timer? refreshTimer;
+  Timer? refreshTimer; // Timer to periodically refresh data from HC-05
   String? selectedListName;
   List<String> startListFiles = [];
   final TextEditingController sessionNameController = TextEditingController();
@@ -35,13 +35,13 @@ class _StartSessionPageState extends State<StartSessionPage> {
   void loadStartLists() {
     final directory = Directory('start_lists');
 
-    if (directory.existsSync()) {
+    if (directory.existsSync()) { // Check if the directory exists
       final files = directory
-          .listSync()
-          .whereType<File>()
-          .where((file) => file.path.endsWith('.txt'))
-          .map((file) => file.uri.pathSegments.last)
-          .toList();
+          .listSync() // List all files in the directory
+          .whereType<File>() // Filter to only include files (not directories)
+          .where((file) => file.path.endsWith('.txt')) // Filter to only include .txt files
+          .map((file) => file.uri.pathSegments.last) // Extract just the file name from the path
+          .toList(); // Convert to a list
 
       setState(() {
         startListFiles = files;
@@ -49,7 +49,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
     }
   }
 
-  Future<void> button1() async {
+  Future<void> connectButton() async {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Connecting...'),
@@ -75,7 +75,7 @@ class _StartSessionPageState extends State<StartSessionPage> {
     );
   }
 
-void button2() async {
+void startButton() async {
   final baseName = session_name.trim();
 
   if (baseName.isEmpty) {
@@ -134,19 +134,35 @@ void button2() async {
     loadStartLists();
   }
 
-
+Widget create(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 166, 255, 0)),
+      ),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: const Text(title),
+        ),
+      ));
+  }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(title),
+    return Theme( // Everything can have a theme, title and background
+      data: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 0, 85)),
       ),
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          title: const Text(title),
+        ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: button1,
+              onPressed: connectButton,
               child: const Text('Connect to HC-05'),
             ),
             const SizedBox(height: 20),
@@ -179,14 +195,14 @@ void button2() async {
               ),
             ),
             ElevatedButton(
-              onPressed: button2,
+              onPressed: startButton,
               child: const Text('Start Session'),
             ),
 
           ],
         ),
       ),
-    );
+    ));
   }
 
 // runs when screen closes
