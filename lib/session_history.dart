@@ -72,31 +72,34 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(title),
-        leading: PopupMenuButton<SortOption>(
-          icon: const Icon(Icons.sort),
-          initialValue: selectedSort,
-          onSelected: updateSort,
-          itemBuilder: (context) => [
-            // Each PopupMenuItem represents a sorting option that the user can select.
-            // When an option is selected, the updateSort method is called to update the sorting of the session files.
-            PopupMenuItem(
-              value: SortOption.newestToOldest,
-              child: Text('Newest to Oldest'),
-            ),
-            PopupMenuItem(
-              value: SortOption.oldestToNewest,
-              child: Text('Oldest to Newest'),
-            ),
-            PopupMenuItem(
-              value: SortOption.aToZ,
-              child: Text('A-Z'),
-            ),
-            PopupMenuItem(
-              value: SortOption.zToA,
-              child: Text('Z-A'),
+        
+  // The actions property of the AppBar contains a PopupMenuButton that allows the user to select a sorting option for the session files.
+  // Located in the top right corner of the AppBar
+  actions: [
+    PopupMenuButton<SortOption>(
+      icon: const Icon(Icons.sort),
+      initialValue: selectedSort,
+      onSelected: updateSort,
+      itemBuilder: (context) => [
+        const PopupMenuItem(
+          value: SortOption.newestToOldest,
+          child: Text('Newest to Oldest'),
+        ),
+        const PopupMenuItem(
+          value: SortOption.oldestToNewest,
+          child: Text('Oldest to Newest'),
+        ),
+        const PopupMenuItem(
+          value: SortOption.aToZ,
+          child: Text('A-Z'),
+        ),
+        const PopupMenuItem(
+          value: SortOption.zToA,
+          child: Text('Z-A'),
             ),
           ],
         ),
+       ],
       ),
       // The body of the Scaffold contains a ListView.builder that builds a list of ElevatedButtons for each session file.
       // Tapping on a button navigates to the DisplaySessionHistoryPage, passing the file path as an argument.
