@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'file_service.dart';
 
 class StartListPage extends StatefulWidget {
   const StartListPage({super.key});
@@ -9,6 +10,11 @@ class StartListPage extends StatefulWidget {
 
 class _StartListPageState extends State<StartListPage> {
   static const String title = 'Start List';
+  final TextEditingController _controller = TextEditingController();
+
+  String? filename; // Variable to hold the custom file name entered by the user
+  String? name;     // Variable to hold the athlete name entered by the user
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +36,38 @@ class _StartListPageState extends State<StartListPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
+              controller: _controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                labelText: 'Enter Athlete Name',
+                labelText: 'Example: Main.txt',
+              ),        
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                filename = _controller.text; // Get the custom file name from the text field;
+                _controller.clear();
+              },
+              child: Text('Enter Start List Name'),
+            ),
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Example: Jax',
               ),
             ),
-
+            ElevatedButton(
+              onPressed: () async {
+                name = _controller.text; // Get the athlete name from the text field
+                await FileTransfer.saveAthleteToCustomList( // Call the function to save the athlete name to the custom file
+                  name: name!,          // Needs the ! for some reason
+                  fileName: filename!,  // Needs the ! for some reason
+                );
+                _controller.clear();
+              },
+              child: Text('Save Athlete Name to Start List'),
+            ),
           ],
         ),
       ),

@@ -1,24 +1,42 @@
 import 'dart:io';
 import 'package:test/test.dart';
-import 'package:laser_timing_gate_app/file_service.dart';
+import '../lib/file_service.dart';
 
 void main() {
   test(
-    'start list input is saved to start_lists directory',
-  () async {
+    'athlete name is saved to start_lists directory', 
+    () async {
+      final name = "Jax";
 
-    final testName = 'Jax';
-    final basePath = Directory.current.path;
-    final filePath = '$basePath/start_lists/athletes.txt';
+      
+      await FileTransfer.saveAthlete(name); // Call the function to move the athlete name
+                                            // to the start_lists directory.
+                                          
+      final file = File('${Directory.current.path}/start_lists/start_list.txt');
 
-    // Call your function
-    await FileService.saveAthleteToStartList(testName);
+      
+      expect(await file.exists(), true);  // Check file exists
 
-    final file = File(filePath);
+      
+      final contents = await file.readAsString();
+      expect(contents.contains(name), true);  // Check the content of the file is correct.
+  });
+  test(
+    'name the file that will hold the athlete names', 
+    () async {
+      final name = "Jax";
+      final fileName = 'custom_SL_name.txt';
 
-    expect(await file.exists(), true);
-
-    final contents = await file.readAsString();
-    expect(contents.contains(testName), true);
+      await FileTransfer.saveAthleteToCustomList(
+      name: name,         // Specify the athlete name to save
+      fileName: fileName, // Specify the custom file name to save the athlete name
+      );
+                                          
+      final file = File('${Directory.current.path}/start_lists/$fileName');
+      
+      expect(await file.exists(), true);  // Check file exists
+      
+      final contents = await file.readAsString();
+      expect(contents.contains(name), true);  // Check the athlete's name is in the custom file
   });
 }
