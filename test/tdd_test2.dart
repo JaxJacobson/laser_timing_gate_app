@@ -39,4 +39,25 @@ void main() {
       final contents = await file.readAsString();
       expect(contents.contains(name), true);  // Check the athlete's name is in the custom file
   });
+  test(
+    'the already created start list names are shown in a dropdown menu', 
+    () async {
+      final basePath = Directory.current.path;
+      final dir = Directory('$basePath/start_lists');
+
+      if (!await dir.exists()) {
+        await dir.create(recursive: true); // Create start_lists if it doesn't exist
+      }
+
+      final file1 = File('$basePath/start_lists/list1.txt');  // Custom file in start_lists dir
+      final file2 = File('$basePath/start_lists/list2.txt');
+
+      await file1.writeAsString('Jax');
+      await file2.writeAsString('Mayson');
+
+      final files = await FileTransfer.getStartLists(); // Get the directory of start lists to show in dropdown
+
+      expect(files.contains('list1.txt'), true); // Check list1.txt is in the dropdown menu
+      expect(files.contains('list2.txt'), true); // Check list2.txt is in the dropdown menu
+  });
 }

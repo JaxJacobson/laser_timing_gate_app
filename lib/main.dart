@@ -3,6 +3,7 @@ import 'start_session.dart';
 import 'session_history.dart';
 import 'athlete.dart';
 import 'start_list.dart';
+import 'start_list2.dart';
 
 void main() {
   runApp(const MyApp());
@@ -99,7 +100,7 @@ void athleteButton() {
       // After message is shown, the Start List Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const StartListPage()),
+      MaterialPageRoute(builder: (context) => const StartListPage2()),
     );
   }
 

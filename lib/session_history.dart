@@ -24,7 +24,7 @@ class SessionHistoryPage extends StatefulWidget {
 
 // _SessionHistoryPageState is the state class for SessionHistoryPage, responsible for managing the list of session files and the selected sorting option.
 class _SessionHistoryPageState extends State<SessionHistoryPage> {
-  static const String title = 'Session History';
+  static const String title = 'Sessions'; // Change to start_lists if you want to display start lists instead of sessions
 
   List<File> sessionFiles = [];
   // By default the files will be sorted by date, with the newest files first.
@@ -39,7 +39,7 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
 
   // loadSessionFiles is an asynchronous method that loads the session files from the 'sessions' directory and updates the sessionFiles list based on the selected sorting option.
   Future<void> loadSessionFiles() async {
-    final directory = Directory('sessions');
+    final directory = Directory('start_lists');
 
     // Check if the 'sessions' directory exists. If it does, list all the .txt files in the directory and sort them using the SortList class based on the selected sorting option.
     if (await directory.exists()) {
