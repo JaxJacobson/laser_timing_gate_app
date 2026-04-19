@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'start_session.dart';
 import 'session_history.dart';
 import 'athlete.dart';
-import 'start_list.dart';
+//import 'start_list.dart';
 import 'start_list2.dart';
 
 void main() {

@@ -1,12 +1,22 @@
+// tdd_test1.dart
+// Mayson Ostermeyer 04/19/2026
+//
+// This file contains unit tests for the endSessionSort function defined in end_session_sort.dart.
+// The tests verify that the function correctly processes a session json file and updates each athlete's json file with their recorded times from the session.
+
+// IMPORTS
+import 'dart:convert';
 import 'dart:io';
 import 'package:test/test.dart';
 import 'package:laser_timing_gate_app/end_session_sort.dart';
 
 void main() {
   test(
-    // This test verifies that the endSessionSort function correctly identifies the first athlete in the start list and creates a txt file for them if it doesn't already exist.
-    // The test sets up a temporary directory structure, creates a session file with the appropriate format, and checks that the athlete's file is created after calling endSessionSort.
-    'passes when the txt file for the first athlete in the start list is found',
+    // This test verifies that the endSessionSort function correctly identifies the first athlete in the start list
+    // and finds that athlete's json file in the 'athletes' directory.
+    // The test sets up a temporary directory structure, creates a session json file with the appropriate format,
+    // and checks that the athlete's json file still exists after calling endSessionSort.
+    'passes when the json file for the first athlete in the start list is found',
     () async {
       // Set up a temporary directory and create the necessary files for the test
       final tempDir = Directory.systemTemp.createTempSync('end_session_sort_test');
@@ -20,13 +30,28 @@ void main() {
         final athletesDir = Directory('athletes')..createSync();
         final sessionsDir = Directory('sessions')..createSync();
 
-        // Create a txt file for the athlete "Mayson" in the 'athletes' directory
-        final athleteFile = File('${athletesDir.path}/Mayson.txt')
-          ..writeAsStringSync('Existing athlete file');
+        // Create a json file for the athlete "Mayson" in the 'athletes' directory
+        final athleteFile = File('${athletesDir.path}/Mayson.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'name': 'Mayson',
+              'sessions': [],
+            }),
+          );
 
-        // Create a session file in the 'sessions' directory with the appropriate format for endSessionSort
-        final sessionFile = File('${sessionsDir.path}/session_name.txt')
-          ..writeAsStringSync('test_session\nMayson\n12.34\n');
+        // Create a session json file in the 'sessions' directory with the appropriate format for endSessionSort
+        final sessionFile = File('${sessionsDir.path}/session_name.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'session': 'TESTJSON_04_19_2026',
+              'athletes': [
+                {
+                  'name': 'Mayson',
+                  'times': [1.27],
+                },
+              ],
+            }),
+          );
 
         // Define the start list with "Mayson" as the first athlete
         final startList = ['Mayson', 'Evan', 'Jax'];
@@ -44,9 +69,11 @@ void main() {
   );
 
   test(
-    // This test verifies that the endSessionSort function correctly processes the session file and records all times for the
-    // first athlete in the start list into their txt file on separate lines.
-    'records all times for the first athlete into their txt file on separate lines',
+    // This test verifies that the endSessionSort function correctly processes the session json file
+    // and records all times for the first athlete in the start list into their json file.
+    // The test checks that the athlete json file contains one session entry with the correct session name
+    // and all recorded times for that athlete.
+    'records all times for the first athlete into their json file',
     () async {
       // Set up a temporary directory and create the necessary files for the test
       final tempDir = Directory.systemTemp.createTempSync('end_session_sort_test');
@@ -60,22 +87,34 @@ void main() {
         Directory('athletes').createSync();
         Directory('sessions').createSync();
 
-        final athleteFile = File('athletes/Mayson.txt')..createSync();
-
-        // Create a session file with multiple entries for "Mayson" to test that all times are recorded correctly
-        final sessionFile = File('sessions/session_name.txt')
+        final athleteFile = File('athletes/Mayson.json')
           ..writeAsStringSync(
-            'test_session\n'
-            'Mayson\n'
-            '12.34\n'
-            'Jax\n'
-            '15.67\n'
-            'Mayson\n'
-            '11.98\n'
-            'Evan\n'
-            '14.20\n'
-            'Mayson\n'
-            '12.01\n',
+            jsonEncode({
+              'name': 'Mayson',
+              'sessions': [],
+            }),
+          );
+
+        // Create a session json file with multiple times for "Mayson" to test that all times are recorded correctly
+        final sessionFile = File('sessions/session_name.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'session': 'TESTJSON_04_19_2026',
+              'athletes': [
+                {
+                  'name': 'Mayson',
+                  'times': [1.27, 1.42, 1.04, 0.97],
+                },
+                {
+                  'name': 'Jax',
+                  'times': [1.06, 0.97],
+                },
+                {
+                  'name': 'Evan',
+                  'times': [0.91, 0.99],
+                },
+              ],
+            }),
           );
 
         final startList = ['Mayson', 'Jax', 'Evan'];
@@ -83,11 +122,17 @@ void main() {
         // Call endSessionSort with the session file path and start list
         await endSessionSort(sessionFile.path, startList);
 
-        // Read the lines from the athlete file for "Mayson" to verify that all three times are recorded on separate lines
-        final athleteLines = athleteFile.readAsLinesSync();
+        // Read and decode the athlete json file for "Mayson" to verify that the session and times were recorded correctly
+        final athleteJson = jsonDecode(athleteFile.readAsStringSync());
 
-        // Check that the athlete file for "Mayson" contains all three times recorded on separate lines
-        expect(athleteLines, ['test_session','12.34', '11.98', '12.01']);
+        // Check that the athlete json file for "Mayson" contains the correct name and one session entry
+        expect(athleteJson['name'], 'Mayson');
+        expect(athleteJson['sessions'], [
+          {
+            'session': 'TESTJSON_04_19_2026',
+            'times': [1.27, 1.42, 1.04, 0.97],
+          },
+        ]);
       } finally {
         Directory.current = originalDirectory;
         tempDir.deleteSync(recursive: true);
@@ -96,10 +141,11 @@ void main() {
   );
 
   test(
-    // This test verifies that the endSessionSort function correctly processes the session file
-    // and records the session name first, then all times for all athletes in the start list
-    // into their respective txt files on separate lines.
-    'records the session name first, then each athlete gets their own times',
+    // This test verifies that the endSessionSort function correctly processes the session json file
+    // and records a session entry for each athlete in the start list into their respective json files.
+    // Each athlete json file should keep the athlete's name and contain a sessions list with that athlete's times
+    // from the session json file.
+    'records the session data for each athlete into their own json files',
     () async {
       // Set up a temporary directory and create the necessary files for the test
       final tempDir = Directory.systemTemp.createTempSync('end_session_sort_test');
@@ -112,28 +158,52 @@ void main() {
         Directory('athletes').createSync();
         Directory('sessions').createSync();
 
-        // Create txt files for the athletes "Mayson", "Jax", and "Evan" in the 'athletes' directory
-        final maysonFile = File('athletes/Mayson.txt')..createSync();
-        final jaxFile = File('athletes/Jax.txt')..createSync();
-        final evanFile = File('athletes/Evan.txt')..createSync();
-
-        // Create a session file with multiple entries for "Mayson", "Jax", and "Evan" to test that the
-        // session name is written first and that all times are recorded correctly
-        final sessionFile = File('sessions/session_name.txt')
+        // Create json files for the athletes "Mayson", "Jax", and "Evan" in the 'athletes' directory
+        final maysonFile = File('athletes/Mayson.json')
           ..writeAsStringSync(
-            'test_session\n'
-            'Mayson\n'
-            '12.34\n'
-            'Jax\n'
-            '15.67\n'
-            'Mayson\n'
-            '11.98\n'
-            'Evan\n'
-            '14.20\n'
-            'Jax\n'
-            '15.10\n'
-            'Evan\n'
-            '13.95\n',
+            jsonEncode({
+              'name': 'Mayson',
+              'sessions': [],
+            }),
+          );
+
+        final jaxFile = File('athletes/Jax.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'name': 'Jax',
+              'sessions': [],
+            }),
+          );
+
+        final evanFile = File('athletes/Evan.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'name': 'Evan',
+              'sessions': [],
+            }),
+          );
+
+        // Create a session json file with entries for "Mayson", "Jax", and "Evan"
+        // to test that each athlete gets their own session data written correctly
+        final sessionFile = File('sessions/session_name.json')
+          ..writeAsStringSync(
+            jsonEncode({
+              'session': 'TESTJSON_04_19_2026',
+              'athletes': [
+                {
+                  'name': 'Mayson',
+                  'times': [1.27, 1.42, 1.04, 0.97],
+                },
+                {
+                  'name': 'Evan',
+                  'times': [0.91, 0.99, 1.21],
+                },
+                {
+                  'name': 'Jax',
+                  'times': [1.06, 0.97, 1.33],
+                },
+              ],
+            }),
           );
 
         final startList = ['Mayson', 'Jax', 'Evan'];
@@ -141,10 +211,36 @@ void main() {
         // Call endSessionSort with the session file path and start list
         await endSessionSort(sessionFile.path, startList);
 
-        // Check that each athlete file starts with the session name and then contains only that athlete's times
-        expect(maysonFile.readAsLinesSync(), ['test_session', '12.34', '11.98']);
-        expect(jaxFile.readAsLinesSync(), ['test_session', '15.67', '15.10']);
-        expect(evanFile.readAsLinesSync(), ['test_session', '14.20', '13.95']);
+        // Check that each athlete json file contains the correct name and the correct session data
+        expect(jsonDecode(maysonFile.readAsStringSync()), {
+          'name': 'Mayson',
+          'sessions': [
+            {
+              'session': 'TESTJSON_04_19_2026',
+              'times': [1.27, 1.42, 1.04, 0.97],
+            },
+          ],
+        });
+
+        expect(jsonDecode(jaxFile.readAsStringSync()), {
+          'name': 'Jax',
+          'sessions': [
+            {
+              'session': 'TESTJSON_04_19_2026',
+              'times': [1.06, 0.97, 1.33],
+            },
+          ],
+        });
+
+        expect(jsonDecode(evanFile.readAsStringSync()), {
+          'name': 'Evan',
+          'sessions': [
+            {
+              'session': 'TESTJSON_04_19_2026',
+              'times': [0.91, 0.99, 1.21],
+            },
+          ],
+        });
       } finally {
         Directory.current = originalDirectory;
         tempDir.deleteSync(recursive: true);

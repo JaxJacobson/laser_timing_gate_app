@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'BT_HC05.dart';
 import 'running_session.dart';
+import 'dart:convert';
 
 
 class StartSessionPage extends StatefulWidget {
@@ -99,22 +100,30 @@ void startButton() async {
       '${now.year}';
 
   final fullFileName = '${baseName}_$dateSuffix';
-  final sessionFile = File('sessions/$fullFileName.txt');
+  final sessionFile = File('sessions/$fullFileName.json');
 
   if (!sessionFile.existsSync()) {
     sessionFile.createSync(recursive: true);
   }
 
-  sessionFile.writeAsStringSync('Session: $fullFileName\n');
+  final sessionJson = {
+    'session': fullFileName,
+    'athletes': <Map<String, dynamic>>[],
+  };
+
+  sessionFile.writeAsStringSync(
+    const JsonEncoder.withIndent('  ').convert(sessionJson),
+  );
 
   if (!mounted) return;
 
 
   final file = File('start_lists/$selectedListName');
-  final startList = file
+  final OGstartList = file
       .readAsLinesSync()
       .where((line) => line.trim().isNotEmpty)
       .toList();
+  final startList = List<String>.from(OGstartList);
 
   Navigator.push(
     context,
@@ -122,6 +131,7 @@ void startButton() async {
       builder: (context) => RunningSessionPage(
         sessionPath: sessionFile.path,
         startList: startList,
+        OGstartList: OGstartList,
         hc05Service: hc05Service,
       ),
     ),

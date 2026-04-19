@@ -39,14 +39,14 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
 
   // loadSessionFiles is an asynchronous method that loads the session files from the 'sessions' directory and updates the sessionFiles list based on the selected sorting option.
   Future<void> loadSessionFiles() async {
-    final directory = Directory('start_lists');
+    final directory = Directory('sessions');
 
-    // Check if the 'sessions' directory exists. If it does, list all the .txt files in the directory and sort them using the SortList class based on the selected sorting option.
+    // Check if the 'sessions' directory exists. If it does, list all the .json files in the directory and sort them using the SortList class based on the selected sorting option.
     if (await directory.exists()) {
       final files = directory
           .listSync()
           .whereType<File>()
-          .where((file) => file.path.endsWith('.txt'))
+          .where((file) => file.path.endsWith('.json'))
           .toList();
 
       // Update the sessionFiles list with the sorted files and call setState to trigger a rebuild of the widget with the new data.
@@ -109,7 +109,7 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
         itemBuilder: (context, index) {
           final file = sessionFiles[index];
           final fileName = file.path.split('\\').last;
-          final displayName = fileName.replaceFirst(RegExp(r'\.txt$'), '');
+          final displayName = fileName.replaceFirst(RegExp(r'\.json$'), '');
 
           return Padding(
             padding: const EdgeInsets.only(bottom: 12),
