@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:laser_timing_gate_app/session_history.dart';
 
-class SessionHistoryResult {
-  const SessionHistoryResult({
+class AthleteHistoryResult {
+  const AthleteHistoryResult({
     required this.name,
     required this.time,
   });
@@ -13,16 +14,16 @@ class SessionHistoryResult {
   final String time;
 }
 
-class DisplaySessiosHistoryPage extends StatelessWidget {
-  final String sessionPath;
+class DisplayAthleteHistoryPage extends StatelessWidget {
+  final String athletePath;
 
-  const DisplaySessiosHistoryPage({
+  const DisplayAthleteHistoryPage({
     super.key,
-    required this.sessionPath,
+    required this.athletePath,
   });
 
-    List<SessionHistoryResult> loadResults() {
-      final sessionFile = File(sessionPath);
+    List<AthleteHistoryResult> loadResults() {
+      final sessionFile = File(athletePath);
 
       if (!sessionFile.existsSync()) {
         return [];
@@ -30,22 +31,22 @@ class DisplaySessiosHistoryPage extends StatelessWidget {
 
       final raw = sessionFile.readAsStringSync();
       final Map<String, dynamic> sessionData = jsonDecode(raw);
-      final List<dynamic> athletes = sessionData['athletes'] ?? [];
+      final List<dynamic> sessions = sessionData['sessions'] ?? [];
 
-      final List<SessionHistoryResult> results = [];
+      final List<AthleteHistoryResult> results = [];
       int maxTimes = 0;
 
-      for (final athlete in athletes) {
-        final List<dynamic> times = athlete['times'] ?? [];
+      for (final session in sessions) {
+        final List<dynamic> times = session['times'] ?? [];
         if (times.length > maxTimes) {
           maxTimes = times.length;
         }
       }
 
       for (int timeIndex = 0; timeIndex < maxTimes; timeIndex++) {
-        for (final athlete in athletes) {
-          final String name = athlete['name'] ?? '';
-          final List<dynamic> times = athlete['times'] ?? [];
+        for (final session in sessions) {
+          final String name = session['session'] ?? '';
+          final List<dynamic> times = session['times'] ?? [];
 
           if (timeIndex < times.length) {
             final value = times[timeIndex];
@@ -54,7 +55,7 @@ class DisplaySessiosHistoryPage extends StatelessWidget {
                 : value.toString();
 
             results.add(
-              SessionHistoryResult(
+              AthleteHistoryResult(
                 name: name,
                 time: displayTime,
               ),
@@ -69,7 +70,7 @@ class DisplaySessiosHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fileName = sessionPath.split('\\').last;
+    final fileName = athletePath.split('\\').last;
     final displayName = fileName.replaceFirst(RegExp(r'\.json$'), '');
     final results = loadResults();
 
@@ -133,4 +134,3 @@ class DisplaySessiosHistoryPage extends StatelessWidget {
   }
 
 }
-

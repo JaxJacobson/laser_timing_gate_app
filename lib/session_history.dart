@@ -9,7 +9,7 @@
 // IMPORTS
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'sortlist.dart';
+import 'sortfiles.dart';
 import 'display_session_history.dart';
 
 // SessionHistoryPage is a StatefulWidget that displays a list of session history files and allows sorting them based on user selection.
@@ -51,7 +51,7 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
 
       // Update the sessionFiles list with the sorted files and call setState to trigger a rebuild of the widget with the new data.
       setState(() {
-        sessionFiles = SortList.sortFiles(files, selectedSort);
+        sessionFiles = SortFiles.sortFiles(files, selectedSort);
       });
     }
   }
@@ -61,7 +61,7 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
   void updateSort(SortOption option) {
     setState(() {
       selectedSort = option;
-      sessionFiles = SortList.sortFiles(sessionFiles, selectedSort);
+      sessionFiles = SortFiles.sortFiles(sessionFiles, selectedSort);
     });
   }
 

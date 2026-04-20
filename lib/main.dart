@@ -86,7 +86,7 @@ void athleteButton() {
       // After message is shown, the Athlete Information Page will pop up.
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const AthletePage()),
+      MaterialPageRoute(builder: (context) => const AthleteHistoryPage()),
     );
   }
   void startListButton() {

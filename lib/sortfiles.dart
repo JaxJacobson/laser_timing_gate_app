@@ -17,7 +17,7 @@ enum SortOption {
   zToA,
 }
 
-class SortList {
+class SortFiles {
   // Static method to sort a list of files based on the selected sorting option
   static List<File> sortFiles(List<File> files, SortOption sortOption) {
 

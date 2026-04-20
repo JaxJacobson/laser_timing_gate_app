@@ -6,7 +6,7 @@
 // IMPORTS
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'sortlist.dart';
+import 'sortfiles.dart';
 import 'display_start_list.dart';
 
 // StartListPage2 is a StatefulWidget that displays a list of start list files and allows sorting them based on user selection.
@@ -41,7 +41,7 @@ class _StartListPage2State extends State<StartListPage2> {
   Future<void> loadStartFiles() async {
     final directory = Directory('start_lists');
 
-    // Check if the 'start_lists' directory exists. If it does, list all the .txt files in the directory and sort them using the SortList class based on the selected sorting option.
+    // Check if the 'start_lists' directory exists. If it does, list all the .txt files in the directory and sort them using the SortFiles class based on the selected sorting option.
     if (await directory.exists()) {
       final files = directory
           .listSync()
@@ -51,7 +51,7 @@ class _StartListPage2State extends State<StartListPage2> {
 
       // Update the startListFiles list with the sorted files and call setState to trigger a rebuild of the widget with the new data.
       setState(() {
-        startListFiles = SortList.sortFiles(files, selectedSort);
+        startListFiles = SortFiles.sortFiles(files, selectedSort);
       });
     }
   }
@@ -61,7 +61,7 @@ class _StartListPage2State extends State<StartListPage2> {
   void updateSort(SortOption option) {
     setState(() {
       selectedSort = option;
-      startListFiles = SortList.sortFiles(startListFiles, selectedSort);
+      startListFiles = SortFiles.sortFiles(startListFiles, selectedSort);
     });
   }
 
