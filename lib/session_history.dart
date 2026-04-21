@@ -1,7 +1,7 @@
 // session_history.dart
 // Mayson Ostermeyer 04/14/2026
 //
-// This file defines the SessionHistoryPage widget, which displays a list of session history files (.txt) stored in the 'sessions' directory.
+// This file defines the SessionHistoryPage widget, which displays a list of session history files (.json) stored in the 'sessions' directory.
 // The user can sort the files by date (newest to oldest or oldest to newest) or alphabetically (A-Z or Z-A) using a popup menu in the app bar. 
 // Tapping on a file opens the DisplaySessionHistoryPage to show the session details.
 
@@ -119,7 +119,7 @@ class _SessionHistoryPageState extends State<SessionHistoryPage> {
                 context,
                 MaterialPageRoute(
                   // When a session file button is pressed, navigate to the DisplaySessionHistoryPage and pass the file path as an argument to display the session details.
-                  builder: (context) => DisplaySessiosHistoryPage(
+                  builder: (context) => DisplaySessionsHistoryPage(
                     sessionPath: file.path,
                     ),
                 ),
