@@ -38,6 +38,9 @@ dependencies:
   # The flutter_libserialport package provides a cross-platform API for serial port communication.
   flutter_libserialport: ^0.5.0
 
+  # Opens the txt start list files for the start list page.
+  open_file: ^3.3.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

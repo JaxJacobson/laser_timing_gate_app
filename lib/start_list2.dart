@@ -150,8 +150,12 @@ class _StartListPage2State extends State<StartListPage2> {
             ),
             const SizedBox(height: 12),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                Text( 
+                  '*click the start list to open/edit it*',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
                 ElevatedButton(
                   onPressed: () => addStartListFile(_fileNameController.text),
                   child: const Text('Add File'),
