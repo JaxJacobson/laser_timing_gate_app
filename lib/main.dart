@@ -1,9 +1,19 @@
+// main.dart
+// Jax Jacobson 03/31/26
+// 
+// This file is the main hub for all of the pages.
+// Start session, session history, athletes, and start list pages are all accessed from the buttons on this page.
+// The ColorScheme for the MyApp is controled here.
+
+
+
 import 'package:flutter/material.dart';
 import 'start_session.dart';
 import 'session_history.dart';
 import 'athlete.dart';
 //import 'start_list.dart';
 import 'start_list2.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -112,6 +122,7 @@ void athleteButton() {
 
       appBar: AppBar(
 
+        // The background color of the AppBar is the same as the ColorScheme color.
         backgroundColor: Theme.of(context).colorScheme.primary,
  
         title: Text(widget.title),

@@ -1,57 +1,75 @@
+// file_service.dart
+// Jax Jacobson 04/13/26
+//
+// This file was used when setting up the TDD tests for the start list page.
+// It takes names inputted from the Start List page and appends them to a designated .txt file in
+// the start_lists directory. It does work, but it is not being used because I wanted to be
+// able to edit and delete the names in the files. This function does not allow that.
+
+
+
 import 'dart:io';
 
 class FileTransfer {
 
-  static Future<void> saveAthlete(String name)  // Unused function to save athlete name
-  async {                                       // Necessary for TDD test to pass, but not used in the app.
+  // This function saves the athlete's name to a default start list file in the start_lists directory.
+  static Future<void> saveAthlete(String name)  // 
+  async {                                       
 
-    final basePath = Directory.current.path; // Get the current directory path
-    final dir = Directory('$basePath/start_lists'); // Get the start_lists directory
+    // Get the current directory path and the path to the start_lists directory
+    final basePath = Directory.current.path; 
+    final dir = Directory('$basePath/start_lists'); 
 
     if (!await dir.exists()) {
-
-      await dir.create(recursive: true); // Create start_lists if it doesn't exist
+      // Create start_lists if it doesn't exist
+      await dir.create(recursive: true); 
     }
-    final file = File('$basePath/start_lists/start_list.txt');  // Put the default file in start_lists dir
-    await file.writeAsString('$name\n', mode: FileMode.append); // Append the athlete name to the default file
+    // Put the default file in start_lists directory and append the athlete name to the file
+    final file = File('$basePath/start_lists/start_list.txt');  
+    await file.writeAsString('$name\n', mode: FileMode.append); 
   }
 
+  // Get the current directory path
+  static String get basePath => Directory.current.path; 
+  // This function saves the athlete's name to a custom start list file.
+  static Future<void> saveAthleteToCustomList({ 
 
-  static String get basePath => Directory.current.path; // Get the current directory path
-  static Future<void> saveAthleteToCustomList({ // Actual function used in the app to save athlete name
-
-    required String name,     // Athlete name
-    required String fileName  // Custom file name
+    required String name,       // Athlete name
+    required String fileName    // Custom file name
 
   }) async {
 
-    final dir = Directory('$basePath/start_lists'); // Get the start_lists directory
+    // Get the start_lists directory
+    final dir = Directory('$basePath/start_lists'); 
 
     if (!await dir.exists()) {
-
-      await dir.create(recursive: true); // Create start_lists if it doesn't exist
-
+      // Create start_lists if it doesn't exist
+      await dir.create(recursive: true); 
     }
 
-    final file = File('$basePath/start_lists/$fileName');  // Put the custom file in start_lists dir
-    await file.writeAsString('$name\n', mode: FileMode.append); // Append the athlete name to the custom file
+    // Put the custom file in start_lists directory and append the athlete name to the custom file
+    final file = File('$basePath/start_lists/$fileName');
+    await file.writeAsString('$name\n', mode: FileMode.append);
 
   }
+  // This function retrieves the names of the start list files for the dropdown menu in the start list page.
+  static Future<List<String>> getStartLists() async {
 
-  static Future<List<String>> getStartLists() async { // Function to get the directory of start lists to show in dropdown
-
-    final dir = Directory('$basePath/start_lists'); // Get the start_lists directory
+    // Get the start_lists directory
+    final dir = Directory('$basePath/start_lists'); 
 
     if (!await dir.exists()) {
-
-      await dir.create(recursive: true); // Create start_lists if it doesn't exist
+      // Create start_lists if it doesn't exist
+      await dir.create(recursive: true); 
     }
 
+    // Lists the .txt files with 'list' for the TDD test.
     final files = dir.listSync().whereType<File>().where((file) {
       final name = file.uri.pathSegments.last;
       return name.startsWith('list');
-    }).toList(); // List only the test files in the start_lists directory
+    }).toList();
 
-    return files.map((file) => file.uri.pathSegments.last).toList(); // Return the file names of the .txt files in the start_lists directory
+    // Return the list of files for the dropdown menu, extracting just the file names from the full paths.
+    return files.map((file) => file.uri.pathSegments.last).toList();
   }
 }

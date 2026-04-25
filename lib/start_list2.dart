@@ -1,13 +1,16 @@
 // start_list 2.0
 // Jax Jacobson 04/14/26
 //
-// This file is basically session_history.dart with different names and directories
+// This file displays the start list page, which shows all start list files that are stored in the start_list directory.
+// The user is able to create new start list files, input the athlete names in the file, and sort the files by newest to oldest, 
+// oldest to newest, A-Z, or Z-A using a popup menu in the app bar.
 
-// IMPORTS
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'sortfiles.dart';
 import 'display_start_list.dart';
+
 
 // StartListPage2 is a StatefulWidget that displays a list of start list files and allows sorting them based on user selection.
 class StartListPage2 extends StatefulWidget {
@@ -22,7 +25,15 @@ class StartListPage2 extends StatefulWidget {
 // _StartListPage2State is the state class for StartListPage2, responsible for managing the list of start list files and the selected sorting option.
 class _StartListPage2State extends State<StartListPage2> {
   static const String title =
-      'Start Lists'; // Change to start_lists if you want to display start lists instead of sessions
+      'Start Lists'; 
+
+
+  @override
+  // Disposes of the widget when the page is switched. (Automatically called by Flutter)
+  void dispose() {
+    _fileNameController.dispose();
+    super.dispose();
+  }
 
   List<File> startListFiles = [];
   late final TextEditingController _fileNameController;
@@ -39,6 +50,7 @@ class _StartListPage2State extends State<StartListPage2> {
 
   // loadStartFiles is an asynchronous method that loads the start list files from the 'start_lists' directory and updates the sessionFiles list based on the selected sorting option.
   Future<void> loadStartFiles() async {
+    // Change 'start_lists' to <directory_name> if you want to display different files
     final directory = Directory('start_lists');
 
     // Check if the 'start_lists' directory exists. If it does, list all the .txt files in the directory and sort them using the SortFiles class based on the selected sorting option.
@@ -49,7 +61,7 @@ class _StartListPage2State extends State<StartListPage2> {
           .where((file) => file.path.endsWith('.txt'))
           .toList();
 
-      // Update the startListFiles list with the sorted files and call setState to trigger a rebuild of the widget with the new data.
+      // Update the start list files with newly created or deleted files.
       setState(() {
         startListFiles = SortFiles.sortFiles(files, selectedSort);
       });
@@ -74,19 +86,22 @@ class _StartListPage2State extends State<StartListPage2> {
     final directory = Directory('start_lists');
     await directory.create(recursive: true);
 
-    final safeName = fileName.endsWith('.txt') ? fileName : '$fileName.txt';  // Automatically add .txt extension if not provided
-    final filePath = '${directory.path}${Platform.pathSeparator}$safeName';   // Create the path for the new file
-    final file = File(filePath);  // Create a File object for the new file
+    // Automatically add .txt extension if not provided
+    final safeName = fileName.endsWith('.txt') ? fileName : '$fileName.txt'; 
+    // Create the path for the new file
+    final filePath = '${directory.path}${Platform.pathSeparator}$safeName';   
+    final file = File(filePath);
 
     if (await file.exists()) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
+          // Can't create a file with the same name. An error will be displayed.
           SnackBar(content: Text('File "$safeName" already exists.')),
         );
       }
       return;
     }
-
+    // Write an empty string to the new file, so it is added to the directory and list.
     await file.writeAsString('');
     _fileNameController.clear();
     await loadStartFiles();
@@ -99,17 +114,10 @@ class _StartListPage2State extends State<StartListPage2> {
   }
 
   @override
-  void dispose() {
-    _fileNameController.dispose();
-    super.dispose();
-  }
-
-  // The build method builds the UI for the StartListPage2 widget. It returns a Scaffold with an AppBar and a ListView that displays the start list files as buttons.
-  // The AppBar includes a PopupMenuButton that allows the user to select the sorting option
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // title = Start Lists
         title: const Text(title),
 
         // The actions property of the AppBar contains a PopupMenuButton that allows the user to select a sorting option for the start list files.
@@ -142,7 +150,9 @@ class _StartListPage2State extends State<StartListPage2> {
             TextField(
               controller: _fileNameController,
               decoration: const InputDecoration(
+                // The text inside the text field.
                 labelText: 'New start list file name',
+                // The text that is displayed when hovering over the text field.
                 hintText: 'Enter file name without extension',
                 border: OutlineInputBorder(),
               ),
@@ -187,6 +197,7 @@ class _StartListPage2State extends State<StartListPage2> {
                           ),
                         );
                       },
+                      // The button with the start list file name.
                       child: Text(displayName),
                     ),
                   );
