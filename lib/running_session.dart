@@ -57,6 +57,8 @@ class _RunningSessionPageState extends State<RunningSessionPage> {
   // Variable to track the last processed time value to avoid duplicate processing
   String lastProcessedTime = '';
 
+  // Initialize the state and start a timer to check for new time data from the HC-05 module every 200 milliseconds.
+  // When new time data is received, it is processed and the session is updated accordingly.
   @override
   void initState() {
 
@@ -660,6 +662,7 @@ void showMessage(String message) {
 
   PopupMenuButton<String>(
     // When an option is selected from the popup menu, call the corresponding function to update the session based on the selected action
+    
     onSelected: (value) async {
   switch (value) {
     case 'skip_up':

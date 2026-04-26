@@ -112,9 +112,11 @@ Future<void> endSessionSort(String sessionPath, List<String> startList) async {
       'times': times,
     });
 
+    // Update the athlete's data with their name and the updated list of sessions
     athleteData['name'] = trimmedName;
     athleteData['sessions'] = sessions;
 
+    // Write the updated athlete data back to their json file with proper formatting for readability
     athleteFile.writeAsStringSync(
       const JsonEncoder.withIndent('  ').convert(athleteData),
     );
