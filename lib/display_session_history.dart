@@ -50,6 +50,9 @@ class DisplaySessionsHistoryPage extends StatelessWidget {
     List<SessionHistoryResult> loadResults() {
       // Read the results from the session JSON file and return a list of SessionHistoryResult objects that contain the athlete's name and their recorded time for that session.
       // The list will be sorted from most recent time to oldest time.
+      // NOTE: If the drop down menu in the running session is used (except for remove current athlete), the true
+      // order from lastest to oldest will not be preserved for this function to correct reconstruct, however
+      // it will be close
 
       // If the JSON file looks like this:
 

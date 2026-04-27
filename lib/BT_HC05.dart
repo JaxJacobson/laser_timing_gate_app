@@ -15,7 +15,7 @@ class HC05Service {
   SerialPort? _port;
   SerialPortReader? _reader;
 
-  // Latest value received from the HC-05 moduleThe
+  // Latest value received from the HC-05 module
   String latest_time = 'Waiting...';
 
   // Serial data comes in pieces, so we use a buffer to accumulate data until we have complete lines to process
@@ -26,7 +26,7 @@ class HC05Service {
 
     // Specify the COM port name for the HC-05 module
     // Mayson PC = 'COM5'
-    const portName = 'COM5';
+    const portName = 'COM6';
 
 
     _port = SerialPort(portName);
