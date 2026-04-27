@@ -25,8 +25,8 @@ class HC05Service {
   Future<String> connect() async {
 
     // Specify the COM port name for the HC-05 module
-    // Mayson PC = 'COM5'
-    const portName = 'COM5';
+    // Mayson PC = 'COM5',Jax PC = 'COM7'
+    const portName = 'COM7';
 
 
     _port = SerialPort(portName);
