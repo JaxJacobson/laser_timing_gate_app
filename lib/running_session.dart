@@ -16,8 +16,16 @@ import 'dart:convert';
 
 
 class AthleteResult {
-  // Represents an athlete's result with their name and time
+
   const AthleteResult({
+    // The constructor for the AthleteResult class, which requires a name and time to create an instance.
+    // This is used to create a list of reults that will be displayed in box below the 'up', 'on deck', and 'in the hole' 
+    // boxes on the RunningSessionPage. Each section of the list will hold the name of the athlete
+    // and their corresponding time for that session.
+
+    // Ex:
+    // AthleteResult(name: 'Athlete 1', time: '1.34'),
+    
     required this.name,
     required this.time,
   });
@@ -80,7 +88,8 @@ class _RunningSessionPageState extends State<RunningSessionPage> {
     });
   }
 
-  // Handle a new time received from the HC-05 module, updating the completed athletes list and current index
+  void handleNewTime(String time) {
+      // Handle a new time received from the HC-05 module, updating the completed athletes list and current index
   // Formatting and structure of session json files
   //{
   //"session": "TESTJSON_04_19_2026",
@@ -111,7 +120,7 @@ class _RunningSessionPageState extends State<RunningSessionPage> {
   //  }
   // ]
   //}
-  void handleNewTime(String time) {
+  
   if (widget.startList.isEmpty) {
     return;
   }
@@ -662,7 +671,7 @@ void showMessage(String message) {
 
   PopupMenuButton<String>(
     // When an option is selected from the popup menu, call the corresponding function to update the session based on the selected action
-    
+
     onSelected: (value) async {
   switch (value) {
     case 'skip_up':
