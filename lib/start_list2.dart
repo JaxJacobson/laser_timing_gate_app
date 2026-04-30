@@ -19,11 +19,11 @@ class StartListPage2 extends StatefulWidget {
 
   // The createState method creates the mutable state for this widget, which is managed by the _StartListPage2State class.
   @override
-  State<StartListPage2> createState() => _StartListPage2State();
+  State<StartListPage2> createState() => _StartListPage2State();  // 1 Start of stateful life cycle
 }
 
 // _StartListPage2State is the state class for StartListPage2, responsible for managing the list of start list files and the selected sorting option.
-class _StartListPage2State extends State<StartListPage2> {
+class _StartListPage2State extends State<StartListPage2> {  // Variable data stored in State object, NOT THE WIDGET CLASS
   static const String title =
       'Start Lists'; 
 
@@ -32,7 +32,7 @@ class _StartListPage2State extends State<StartListPage2> {
   // Disposes of the widget when the page is switched. (Automatically called by Flutter)
   void dispose() {
     _fileNameController.dispose();
-    super.dispose();
+    super.dispose();  // 6 End of stateful life cycle
   }
 
   List<File> startListFiles = [];
@@ -43,7 +43,7 @@ class _StartListPage2State extends State<StartListPage2> {
   // The initState method is called when the state object is first created. It initializes the text controller and loads files.
   @override
   void initState() {
-    super.initState();
+    super.initState();  // 2 Initialization of stateful life cycle
     _fileNameController = TextEditingController();
     loadStartFiles();
   }
@@ -62,7 +62,7 @@ class _StartListPage2State extends State<StartListPage2> {
           .toList();
 
       // Update the start list files with newly created or deleted files.
-      setState(() {
+      setState(() { // 4 Call build() for stateful life cycle
         startListFiles = SortFiles.sortFiles(files, selectedSort);
       });
     }
@@ -71,7 +71,7 @@ class _StartListPage2State extends State<StartListPage2> {
   // updateSort is a method that updates the selected sorting option and re-sorts the startListFiles list based on the new sorting option.
   // It calls setState to trigger a rebuild of the widget with the updated sorting.
   void updateSort(SortOption option) {
-    setState(() {
+    setState(() { // 4 Call build() for stateful life cycle
       selectedSort = option;
       startListFiles = SortFiles.sortFiles(startListFiles, selectedSort);
     });
@@ -114,7 +114,8 @@ class _StartListPage2State extends State<StartListPage2> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {  // 3,5 Middle of stateful life cycle
+                                        // context = call stack
     return Scaffold(
       appBar: AppBar(
         // title = Start Lists

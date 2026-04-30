@@ -1,0 +1,18 @@
+{
+  "session": "Test_04_28_2026",
+  "athletes": [
+    {
+      "name": "Jax",
+      "times": [
+        61.14,
+        2.97
+      ]
+    },
+    {
+      "name": "Mayson",
+      "times": [
+        2.8
+      ]
+    }
+  ]
+}
