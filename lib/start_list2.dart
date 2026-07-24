@@ -181,7 +181,7 @@ class _StartListPage2State extends State<StartListPage2> {  // Variable data sto
                   final file = startListFiles[index];
                   final fileName = file.path.split('\\').last;
                   final displayName = fileName.replaceFirst(
-                    RegExp(r'\.txt$'),
+                    RegExp(r'\.txt$'),  // Replace .txt at the end with ''
                     '',
                   );
 
@@ -193,8 +193,7 @@ class _StartListPage2State extends State<StartListPage2> {  // Variable data sto
                           context,
                           MaterialPageRoute(
                             // When a start list file button is pressed, navigate to the DisplayStartListPage and pass the file path as an argument to display the start list details.
-                            builder: (context) =>
-                                DisplayStartListPage(startListPath: file.path),
+                            builder: (context) => DisplayStartListPage(startListPath: file.path),
                           ),
                         );
                       },
